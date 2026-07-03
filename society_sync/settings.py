@@ -1,11 +1,22 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-BASE_DIR = Path(__file__).resolve().parent
+
+# 1. Correct BASE_DIR calculation (points to the root folder containing manage.py)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 2. Force load_dotenv to find your .env file in the root folder
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# 3. Safely pull environmental elements
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+'''
+# Double-check fallback safety mechanism so Django never boots completely empty
+if not SECRET_KEY:
+    SECRET_KEY = 'django-insecure-fallback-development-key-xyz'
+'''
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,7 +40,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'society_sync.urls'
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates', 
-     'DIRS': [os.path.join(BASE_DIR, 'templates')], 
+     'DIRS': [BASE_DIR / 'templates'], 
      'APP_DIRS': True, 
      'OPTIONS':
        {
@@ -49,8 +60,21 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'society_sync','static'),
 ]
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Prints emails to console for testing
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
