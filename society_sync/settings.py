@@ -62,7 +62,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'society_sync','static'),
 ]
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'login_router'
 LOGOUT_REDIRECT_URL = 'login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Prints emails to console for testing
 LOGGING = {

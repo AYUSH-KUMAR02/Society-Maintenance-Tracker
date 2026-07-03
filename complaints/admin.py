@@ -29,7 +29,7 @@ class ComplaintAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         extra_context['metrics'] = {
             'Open': counts.filter(status='Open').count(),
-            'In Progress': counts.filter(status='In Progress').count(),
+            'In_Progress': counts.filter(status='In Progress').count(),
             'Resolved': counts.filter(status='Resolved').count(),
             'Overdue': overdue_count
         }

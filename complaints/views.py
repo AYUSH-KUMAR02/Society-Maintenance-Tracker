@@ -26,6 +26,13 @@ def complaint_detail(request, pk):
     complaint = get_object_or_404(Complaint, pk=pk, resident=request.user)
     return render(request, 'complaint_detail.html', {'complaint': complaint})
 
+
+@login_required
+def login_redirect_router(request):
+    if request.user.is_staff or request.user.is_superuser:
+        return redirect('/admin/')
+    return redirect('dashboard')
+
 def register(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
