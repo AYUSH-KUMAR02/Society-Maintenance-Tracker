@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid">
+    <section>
+        <h2>Your Complaints</h2>
+        <table>
+            <thead><tr><th>ID</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+                {% for c in complaints %}
+                <tr><td>#{{ c.id }}</td><td>{{ c.category }}</td><td><mark>{{ c.status }}</mark></td><td><a href="{% url 'complaint_detail' c.id %}">View History</a></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>Notice Board</h2>
+        {% for n in notices %}
+        <article>
+            <header>{% if n.is_important %}<span style="color:red;font-weight:bold;">⚠️ Pinned: </span>{% endif %}<strong>{{ n.title }}</strong></header>
+            <p>{{ n.content }}</p>
+            <footer><small>{{ n.created_at|date:"M d, Y" }}</small></footer>
+        </article>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<article>
+    <h2>Complaint #{{ complaint.id }}: {{ complaint.category }}</h2>
+    <p>{{ complaint.description }}</p>
+    {% if complaint.photo %}<img src="{{ complaint.photo.url }}" style="max-width:300px; display:block; margin-bottom:1rem;">{% endif %}
+    <h3>Status Audit History Logs</h3>
+    <ul>
+        {% for log in complaint.history.all %}
+        <li><strong>[{{ log.changed_at }}]</strong> changed to <mark>{{ log.status }}</mark> - <em>{{ log.note }}</em></li>
+        {% endfor %}
+    </ul>
+</article>
+{% endblock %}

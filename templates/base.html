@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SocietySync</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body class="container">
+    <nav>
+        <ul><li><strong>SocietySync</strong></li></ul>
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'raise_complaint' %}">Raise Complaint</a></li>
+                <li><form action="{% url 'logout' %}" method="post" style="display:inline;">{% csrf_token %}<button type="submit" class="secondary">Logout</button></form></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+</body>
+</html>
